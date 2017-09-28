@@ -4,12 +4,20 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 /**
  * Activity principal. Pide un nombre de usuario
  * y un mensaje para enviarlo a la Activity ViewMessage,
  * que se lanza al pulsar el botón "OK".
+ *
+ * Conceptos:
+ * <ul>
+ *     <li>Context</li>
+ *     <li>Intent entre actividades</li>
+ *     <li>Paso de parámetros con Bundle</li>
+ * </ul>
  *
  * @author Enrique Casielles Lapeira
  * @version 1.0
@@ -21,6 +29,7 @@ public class SendMessageActivity extends AppCompatActivity {
 
     private EditText edtMessage;
     private EditText edtUser;
+    private Button btnOk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +37,24 @@ public class SendMessageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_send_message);
         edtMessage = (EditText) findViewById(R.id.edtMessage);
         edtUser = (EditText) findViewById(R.id.edtUser);
+        btnOk = (Button) findViewById(R.id.btnOk);
+        //Usando clases anónimas
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("message", edtMessage.getText().toString());
+                bundle.putString("user", edtUser.getText().toString());
+                Intent intent = new Intent(SendMessageActivity.this, ViewMessageActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 
     public void getOnClick(View view) {
 
-        switch (view.getId()){
+        /*switch (view.getId()){
             case R.id.btnOk:
                 //1: Recoger el mensaje
                 //2: Crear un objeto Bundle y añadir el mensaje
@@ -50,7 +72,7 @@ public class SendMessageActivity extends AppCompatActivity {
                 //4: Iniciar la Activity ViewMessage
                 startActivity(intent);
                 break;
-        }
+        }*/
 
     }
 }
