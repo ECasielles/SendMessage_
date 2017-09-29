@@ -3,9 +3,12 @@ package com.example.usuario.sendmessage;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.usuario.sendmessage.pojo.Message;
 
 /**
  * Activity principal. Pide un nombre de usuario
@@ -27,6 +30,8 @@ import android.widget.EditText;
  */
 public class SendMessageActivity extends AppCompatActivity {
 
+    public static final String TAG = "com.example.sendmessage";
+    //public static final String TAG = "SendMessageActivity";
     private EditText edtMessage;
     private EditText edtUser;
     private Button btnOk;
@@ -43,13 +48,40 @@ public class SendMessageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putString("message", edtMessage.getText().toString());
-                bundle.putString("user", edtUser.getText().toString());
+                Message message = new Message(
+                        edtMessage.getText().toString(),
+                        edtUser.getText().toString()
+                );
+                bundle.putParcelable("message", message);
                 Intent intent = new Intent(SendMessageActivity.this, ViewMessageActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "SendMessage.onStart()");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "SendMessage.onStop()");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "SendMessage.onResume()");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "SendMessage.onPause()");
     }
 
     public void getOnClick(View view) {
